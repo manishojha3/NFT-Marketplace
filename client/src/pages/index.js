@@ -1,9 +1,6 @@
 import Head from 'next/head'
-import Blogs from '@/components/Blogs'
 import Hero from '@/components/Hero'
-import Features from '@/components/Features'
-import Team from '@/components/Team'
-import Pricing from '@/components/Pricing'
+import Shop from '@/pages/shop'
 import Contact from '@/components/Contact'
 
 export default function Home() {
@@ -20,19 +17,9 @@ export default function Home() {
         <div className="hero">
           <Hero />
         </div>
-
-        <div className="features">
-          <Features />
+        <div className='shop'>
+          <Shop />
         </div>
-        
-        <div className="pricing">
-          <Pricing />
-        </div>
-
-        <div className="blogs">
-          <Blogs />
-        </div>
-
         <div className="contact">
           <Contact />
         </div>

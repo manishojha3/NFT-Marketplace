@@ -111,7 +111,7 @@ const profile = ({ currentAccount }) => {
   return (
     <>
       <Head>
-        <title>CodeLek - My Profile</title>
+        <title>NFTPlace - My Profile</title>
       </Head>
 
       <style jsx>

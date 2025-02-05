@@ -28,33 +28,36 @@ const shop = () => {
   };
 
   const getNFTs = async () => {
-    setIsLoading(true);
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    const signer = provider.getSigner();
-    const Contract = new ethers.Contract(contractAddress, contractABI, signer);
-    const allNFTs = await Contract.getAllNFTs();
-
-    const AllNFTs = await allNFTs.filter((item) => item.isOnSale == true);
-
     try {
+      setIsLoading(true);
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []); // Ensure the user is connected
+  
+      const Contract = new ethers.Contract(contractAddress, contractABI, provider); // Use provider for read-only calls
+      const allNFTs = await Contract.getAllNFTs(); // This should now work
+  
+      const AllNFTs = allNFTs.filter((item) => item.isOnSale == true);
+  
       const structuredNFTs = AllNFTs.map((items) => ({
         tokenId: parseInt(items.tokenId._hex),
         nftOwner: items.nftOwner,
         title: items.title,
         category: items.category,
         description: items.description,
-        price: ethers.utils.formatEther(parseInt(items.price._hex).toString()),
+        price: ethers.formatEther(items.price), // ethers.utils.formatEther -> ethers.formatEther in v6
         fileURI: items.fileURI,
         timestamp: new Date(items.timestamp.toNumber() * 1000).toLocaleString(),
         isOnSale: items.isOnSale
       }));
+  
       setTokenData(structuredNFTs);
-      setIsLoading(false);
     } catch (error) {
+      console.error("Error fetching NFTs:", error);
+    } finally {
       setIsLoading(false);
-      console.log(error);
     }
-  }
+  };
+  
 
   useEffect(() => {
     checkIfWalletIsConnected();
@@ -63,7 +66,7 @@ const shop = () => {
   return (
     <>
       <Head>
-        <title>CodeLek - Shop Now</title>
+        <title>NFTPlace - Shop Now</title>
       </Head>
       {isLoading && <Loader />}
       <div className='max-w-full h-full flex relative overflow-y-hidden'>

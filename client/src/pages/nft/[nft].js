@@ -94,7 +94,7 @@ const Nft = () => {
   return (
     <>
       <Head>
-        <title>CodeLek - NFTs</title>
+        <title>NFTPlace - NFTs</title>
       </Head>
       <div>
         {isLoading && <Loader />}
